@@ -20,7 +20,6 @@ public class UserMapperTest {
         User user = new User();
         user.setLoginId("testId");
         user.setPassword("testPassword");
-        user.setUserName("testUser");
 
         userService.save(user);
 
