@@ -5,20 +5,23 @@
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}"
           href="css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/custom.css}"
+          href="css/custom.css" rel="stylesheet">
+    <title>게시판</title>
 </head>
 <body>
 
 <div class="container" style="max-width: 600px">
-    <div>
+    <div class="d-flex justify-content-between align-items-center my-3">
         <div sec:authorize="isAnonymous()">
-            <button type="button" th:onclick="|location.href='@{/register}'|">회원가입</button>
-            <button type="button" th:onclick="|location.href='@{/login}'|">로그인</button>
+            <button type="button" class="btn btn-outline-primary" th:onclick="|location.href='@{/register}'|">회원가입</button>
+            <button type="button" class="btn btn-outline-secondary" th:onclick="|location.href='@{/login}'|">로그인</button>
         </div>
         <div sec:authorize="isAuthenticated()" style="display:inline;">
-            <form th:action="@{/logout}" method="post">
-            <h5><span th:text="${#authentication.name}"></span> 로그인 됨</h5>
-                <button type="submit">
-                    logout
+            <form th:action="@{/logout}" method="post" class="d-inline">
+                <h5 class="d-inline"><span th:text="${#authentication.name}"></span> 로그인 됨</h5>
+                <button type="submit" class="btn btn-outline-danger">
+                    로그아웃
                 </button>
             </form>
         </div>
@@ -27,7 +30,7 @@
         <h2>목록</h2>
     </div>
 
-    <form method="get" class="form-inline">
+    <form method="get" class="form-inline mb-3">
         <button class="btn btn-primary float-end"
                 th:onclick="|location.href='@{/posts/add}'|"
                 type="button">등록
@@ -36,8 +39,8 @@
 
     <hr class="my-4">
     <div>
-        <table class="table">
-            <thead>
+        <table class="table table-striped">
+            <thead class="thead-dark">
             <tr>
                 <th>제목</th>
                 <th>작성자</th>
@@ -59,5 +62,7 @@
     </div>
 </div> <!-- /container -->
 
+<script th:src="@{/js/bootstrap.bundle.min.js}"
+        src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
