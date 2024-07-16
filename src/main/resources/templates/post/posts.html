@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container" style="max-width: 600px">
+    <div>
+        <div sec:authorize="isAnonymous()">
+            <button type="button" th:onclick="|location.href='@{/register}'|">회원가입</button>
+            <button type="button" th:onclick="|location.href='@{/login}'|">로그인</button>
+        </div>
+        <div sec:authorize="isAuthenticated()" style="display:inline;">
+            <form th:action="@{/logout}" method="post">
+            <h5><span th:text="${#authentication.name}"></span> 로그인 됨</h5>
+                <button type="submit">
+                    logout
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="py-5 text-center">
+        <h2>목록</h2>
+    </div>
+
+    <form method="get" class="form-inline">
+        <button class="btn btn-primary float-end"
+                th:onclick="|location.href='@{/posts/add}'|"
+                type="button">등록
+        </button>
+    </form>
+
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>등록일</th>
+                <th>조회수</th>
+                <th>좋아요</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="post : ${posts}">
+                <td><a th:href="@{/posts/{postId}(postId=${post.id})}" th:text="${post.title}">제목</a></td>
+                <td th:text="${post.author}">작성자</td>
+                <td th:text="${#dates.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</td>
+                <td th:text="${post.views}">조회수</td>
+                <td th:text="${post.likes}">좋아요</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+
+</body>
+</html>

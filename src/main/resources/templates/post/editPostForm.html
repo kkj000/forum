@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="py-5 text-center">
+        <h2></h2>
+    </div>
+
+    <form action="post.html" th:action method="post">
+        <div>
+            <label for="title">제목</label>
+            <input type="text" id="title" name="title" class="form-control" th:value="${post.title}">
+        </div>
+        <div>
+            <label for="content">본문</label>
+            <input type="text" id="content" name="content" class="form-control" th:value="${post.content}">
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col">
+                <button type="submit">수정</button>
+                <button onclick=""
+                        th:onclick="|loation.href='@{/posts}'|"
+                        type="button">취소</button>
+            </div>
+        </div>
+
+
+    </form>
+
+</div> <!-- /container -->
+</body>
+</html>

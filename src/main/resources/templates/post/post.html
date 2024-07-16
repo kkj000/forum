@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .post-meta {
+            font-size: 0.9em;
+            margin-bottom: 20px;
+
+        }
+        .post-content{
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+        .margin{
+            margin-right: 50px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="post_container">
+
+    <h1 id="postId" th:text="${post.title}">제목</h1>
+    <hr>
+    <div class="post-meta">
+        <span th:text="${post.author}">작성자</span>
+        <span th:text="${post.createdAt}"
+              class="margin">작성일</span>
+
+        조회수 : <span th:text="${post.views}">조회수</span>
+        좋아요 : <span th:text="${post.likes}">좋아요</span>
+        싫어요 : <span th:text="${post.dislikes}">싫어요</span>
+
+    </div>
+    <hr>
+    <div class="post-content">
+        <img th:if="${imageUrl}" th:src="${imageUrl}" width="300" height="300" />
+        <p id="content" th:text="${post.content}">본문</p>
+    </div>
+    <hr>
+    <div>
+        <button type="button"
+                th:onclick="|location.href='@{/posts/{postId}/like(postId=${post.id})}'|"
+        >좋아요</button>
+        <button type="button"
+                th:onclick="|location.href='@{/posts/{postId}/dislike(postId=${post.id})}'|"
+        >싫어요</button>
+    </div>
+    <hr>
+    <div>
+        <button th:if="${post.author}==${#authentication.name}"
+                onclick=""
+                th:onclick="|location.href='@{/posts/delete/{postId}(postId=${post.id})}'|"
+                type="button">삭제</button>
+        <button th:if="${post.author}==${#authentication.name}"
+                onclick=""
+                th:onclick="|location.href='@{/posts/edit/{postId}(postId=${post.id})}'|"
+                type="button">수정</button>
+        <button onclick=""
+                th:onclick="|location.href='@{/posts}'|"
+                type="button">목록</button>
+    </div>
+</div>
+
+    <hr>
+
+    <div th:each="comment : ${comments}">
+        <div>
+        <span th:text="${comment.author}"></span>
+        <span th:text="${comment.createdAt}" class="margin"></span>
+            <span>
+                <button th:if="${comment.author}==${#authentication.name}"
+                        type="button"
+                        th:onclick="|location.href='@{/posts/deleteComment/{postId}/{commentId}(postId=${post.id}, commentId=${comment.id})}'|"
+                >삭제</button>
+            </span>
+        </div>
+        <p th:text="${comment.content}"></p>
+    </div>
+
+    <hr>
+
+    <form th:action="@{/posts/{postId}/comment(postId=${post.id})}" method="post">
+        <label for="commentContent">댓글</label>
+        <input type="text" id="commentContent" name="content">>
+        <button type="submit">등록</button>
+    </form>
+
+
+
+
+</body>
+</html>
